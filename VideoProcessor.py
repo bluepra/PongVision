@@ -83,22 +83,24 @@ class VideoProcessor():
         h,w,c = frame.shape
         frame = cv.flip(frame, 1)
 
-        frame = vp.show_fps(frame)
+        # frame = vp.show_fps(frame)
 
         # Split frame into 2 halves
-        left, right = vp.split_frame_into_2(frame)
+        # left, right = vp.split_frame_into_2(frame)
 
         # # Get poses for both halves
-        left_nose_coord = vp.get_nose_coord(left)
-        right_nose_coord = vp.get_nose_coord(right)
+        # left_nose_coord = vp.get_nose_coord(left)
+        # right_nose_coord = vp.get_nose_coord(right)
 
-        left = vp.draw_nose_line(left, left_nose_coord, 'left')
-        right = vp.draw_nose_line(right, right_nose_coord, 'right')
+        nose_coord = vp.get_nose_coord(frame)
 
-        frame = vp.stitch_left_and_right(left, right)
+        # left = vp.draw_nose_line(left, left_nose_coord, 'left')
+        # right = vp.draw_nose_line(right, right_nose_coord, 'right')
+
+        # frame = vp.stitch_left_and_right(left, right)
         self.cur_frame = frame
 
-        return (left_nose_coord, right_nose_coord)
+        return nose_coord
 
         
 
