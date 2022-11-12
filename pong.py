@@ -176,5 +176,14 @@ class Pong():
             self.ball.velocity[1] = -self.ball.velocity[1]     
         
 
+# Main program
+def main():
+    # Initialize game
+    pong = Pong()
+    # Kick off main game loop
+    pong.game_loop()
+    #Once we have exited the main program loop we can stop the game engine:
+    pygame.quit()
 
-
+if __name__ == "__main__":
+    main()
