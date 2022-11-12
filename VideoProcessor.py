@@ -16,15 +16,15 @@ class VideoProcessor():
         self.pose = self.mp_pose.Pose()
 
         # FPS Information
-        cur_time = None
-        prev_time = 0   
+        self.cur_time = None
+        self.prev_time = 0   
 
     
     def show_fps(self, frame):
         self.cur_time = time.time()
         fps = int(1/(self.cur_time - self.prev_time))
-        prev_time = self.cur_time
-        return cv.putText(frame, 'FPS:' + str(fps), (70,80), cv.FONT_HERSHEY_PLAIN, 3, (255,0,0), 3)
+        self.prev_time = self.cur_time
+        return cv.putText(frame, 'FPS:' + str(fps), (70,80), cv.FONT_HERSHEY_PLAIN, 3, (255,0,0), thickness=10)
 
     def close(self):
         self.cam.release()
@@ -89,7 +89,7 @@ if __name__ == '__main__':
         h,w,c = frame.shape
         frame = cv.flip(frame, 1)
 
-        # frame = show_fps(frame)
+        frame = vp.show_fps(frame)
 
         # Split frame into 2 halves
         left, right = vp.split_frame_into_2(frame)
@@ -97,6 +97,12 @@ if __name__ == '__main__':
         # # Get poses for both halves
         left_nose_coord = vp.get_nose_coord(left)
         right_nose_coord = vp.get_nose_coord(right)
+
+        # if left_nose_coord:
+        #     print('Left Nose', left_nose_coord[1], ' ------ ', end='')
+        # if right_nose_coord:
+        #     print('Right Nose', right_nose_coord[1], end='')
+        # print()
 
         left = vp.draw_nose_line(left, left_nose_coord, 'left')
         right = vp.draw_nose_line(right, right_nose_coord, 'right')
