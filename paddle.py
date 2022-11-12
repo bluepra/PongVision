@@ -1,6 +1,6 @@
 import pygame
 BLACK = (0,0,0)
-
+ 
 class Paddle(pygame.sprite.Sprite):
     #This class represents a paddle. It derives from the "Sprite" class in Pygame.
     
@@ -8,7 +8,7 @@ class Paddle(pygame.sprite.Sprite):
         # Call the parent class (Sprite) constructor
         super().__init__()
         
-        # Pass in the color of the paddle, its width and height.
+        # Pass in the color of the Paddle, its width and height.
         # Set the background color and set it to be transparent
         self.image = pygame.Surface([width, height])
         self.image.fill(BLACK)
@@ -22,12 +22,12 @@ class Paddle(pygame.sprite.Sprite):
         
     def moveUp(self, pixels):
         self.rect.y -= pixels
-		#Check that you are not going too far (off the screen)
+        #Check that you are not going too far (off the screen)
         if self.rect.y < 0:
           self.rect.y = 0
           
     def moveDown(self, pixels):
         self.rect.y += pixels
-	#Check that you are not going too far (off the screen)
+        #Check that you are not going too far (off the screen)
         if self.rect.y > 400:
           self.rect.y = 400
