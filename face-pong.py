@@ -81,7 +81,6 @@ class Pong():
 
             # Get the player y-coords from the VideoProcessor
             playerA_y, playerB_y = self.vp.get_Y_coords(show_video=True)
-            print(playerA_y, playerB_y)
 
             # Update paddle positions
             if playerA_y:
