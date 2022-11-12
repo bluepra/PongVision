@@ -1,9 +1,9 @@
 # Import the pygame library and initialise the game engine
 import pygame
-from pygame import time
 from paddle import Paddle
 from ball import Ball
 from random import randint
+import methods
  
  
 # Define some colors
@@ -50,7 +50,7 @@ class Pong():
         # The clock will be used to control how fast the screen updates
         self.clock = pygame.time.Clock()
 
-        # Intialize cool down logic
+        # Intialize cooldown logic
         self.last = pygame.time.get_ticks()
         self.cooldown_ticks = 0
         self.cooldown = False
@@ -159,6 +159,21 @@ class Pong():
         self.last = pygame.time.get_ticks()
         self.cooldown_ticks = 500  
         self.cooldown = True
+
+    #Check if the ball is bouncing against any of the 4 walls:
+    def check_wall_collisions(self):
+        if self.ball.rect.x>=690:
+            self.scoreA+=1
+            self.ball.velocity[0] = -self.ball.velocity[0]
+            self.new_round()
+        if self.ball.rect.x<=0:
+            self.scoreB+=1
+            self.ball.velocity[0] = -self.ball.velocity[0]
+            self.new_round()
+        if self.ball.rect.y>490:
+            self.ball.velocity[1] = -self.ball.velocity[1]
+        if self.ball.rect.y<0:
+            self.ball.velocity[1] = -self.ball.velocity[1]     
         
 
 
