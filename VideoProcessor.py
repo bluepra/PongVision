@@ -41,6 +41,12 @@ class VideoProcessor():
         frame[:, width//2:] = np.zeros(shape=(height, width//2, channels))
         
         return frame, r
+
+    def break_frame_into_2(self, frame):
+        h,w,c = frame.shape
+        left = frame[:,0:w//2]
+        right = frame[:,w//2:]
+        return left, right
     
     def stitch_left_and_right(self, left, right):
         h,w,c = left.shape
@@ -83,24 +89,26 @@ class VideoProcessor():
         h,w,c = frame.shape
         frame = cv.flip(frame, 1)
 
-        # frame = vp.show_fps(frame)
+        frame = vp.show_fps(frame)
 
-        # Split frame into 2 halves
-        # left, right = vp.split_frame_into_2(frame)
+        # Break frame into 2 halves
+        left, right = vp.break_frame_into_2(frame)
 
-        # # Get poses for both halves
-        # left_nose_coord = vp.get_nose_coord(left)
-        # right_nose_coord = vp.get_nose_coord(right)
+        # Get poses for both halves
+        left_nose_coord = vp.get_nose_coord(left)
+        right_nose_coord = vp.get_nose_coord(right)
 
-        nose_coord = vp.get_nose_coord(frame)
+        left = vp.draw_nose_line(left, left_nose_coord, 'left')
+        right = vp.draw_nose_line(right, right_nose_coord, 'right')
 
-        # left = vp.draw_nose_line(left, left_nose_coord, 'left')
-        # right = vp.draw_nose_line(right, right_nose_coord, 'right')
+        frame = np.concatenate((left,right),axis=1)
 
-        # frame = vp.stitch_left_and_right(left, right)
         self.cur_frame = frame
 
-        return nose_coord
+        # EXTRA: Modify right coord to so that its in the right place in the bigger frame
+        right_nose_coord[0] += w//2
+
+        return (left_nose_coord[1], right_nose_coord[1])
 
         
 
@@ -120,22 +128,24 @@ if __name__ == '__main__':
         frame = vp.show_fps(frame)
 
         # Split frame into 2 halves
-        left, right = vp.split_frame_into_2(frame)
+        # left, right = vp.split_frame_into_2(frame)
+        
+        left, right = vp.break_frame_into_2(frame)
 
-        # # Get poses for both halves
+        # # # Get poses for both halves
         left_nose_coord = vp.get_nose_coord(left)
         right_nose_coord = vp.get_nose_coord(right)
 
-        # if left_nose_coord:
-        #     print('Left Nose', left_nose_coord[1], ' ------ ', end='')
-        # if right_nose_coord:
-        #     print('Right Nose', right_nose_coord[1], end='')
-        # print()
+        # # if left_nose_coord:
+        # #     print('Left Nose', left_nose_coord[1], ' ------ ', end='')
+        # # if right_nose_coord:
+        # #     print('Right Nose', right_nose_coord[1], end='')
+        # # print()
 
         left = vp.draw_nose_line(left, left_nose_coord, 'left')
         right = vp.draw_nose_line(right, right_nose_coord, 'right')
 
-        frame = vp.stitch_left_and_right(left, right)
+        frame = np.concatenate((left,right),axis=1)
 
         cv.imshow("Video Feed", frame)
 
