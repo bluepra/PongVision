@@ -1,13 +1,12 @@
 # Import the pygame library and initialise the game engine
 import pygame
-from paddle import Paddle
-from ball import Ball
 import cv2 as cv
 import time
+from pong import Pong
  
 pygame.init()
 
-WIDTH, HEIGHT = 900, 500
+WIDTH, HEIGHT = 700, 500
 
 # Open a new window
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
@@ -27,8 +26,9 @@ while running:
         elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_x: #Pressing the x Key will quit the game
                     running = False
-                if event.key == pygame.K_space:
-                    #lace = False
+                if event.key == pygame.K_p:
+                    pong = Pong()
+                    pong.game_loop()
                     
     # Screen Update
     pygame.display.update()

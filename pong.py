@@ -5,30 +5,31 @@ from paddle import Paddle
 from ball import Ball
 from random import randint
  
-pygame.init()
  
 # Define some colors
 BLACK = (0,0,0)
 WHITE = (255,255,255)
+WIDTH, HEIGHT = 700, 500
 
 # Define screen params
-SCREEN_CENTER_X = 345
-SCREEN_CENTER_Y = 195
+SCREEN_CENTER_X = WIDTH / 2
+SCREEN_CENTER_Y = HEIGHT / 2
 
 class Pong():
 
     def __init__(self):
+        pygame.init()
         # Open a new window
-        self.size = (700, 500)
+        self.size = (WIDTH, HEIGHT)
         self.screen = pygame.display.set_mode(self.size)
         pygame.display.set_caption("Pong")
 
         self.paddleA = Paddle(WHITE, 10, 100)
-        self.paddleA.rect.x = 20
+        self.paddleA.rect.x = 5
         self.paddleA.rect.y = 200
 
         self.paddleB = Paddle(WHITE, 10, 100)
-        self.paddleB.rect.x = 670
+        self.paddleB.rect.x = WIDTH - 15
         self.paddleB.rect.y = 200
 
         self.ball = Ball(WHITE,10,10)
@@ -87,7 +88,7 @@ class Pong():
             self.all_sprites_list.update()
             
             #Check if the ball is bouncing against any of the 4 walls:
-            if self.ball.rect.x>=690:
+            if self.ball.rect.x>=WIDTH - 10:
                 self.scoreA+=1
                 self.ball.velocity[0] = -self.ball.velocity[0]
                 self.new_round()
@@ -95,7 +96,7 @@ class Pong():
                 self.scoreB+=1
                 self.ball.velocity[0] = -self.ball.velocity[0]
                 self.new_round()
-            if self.ball.rect.y>490:
+            if self.ball.rect.y>HEIGHT - 10:
                 self.ball.velocity[1] = -self.ball.velocity[1]
             if self.ball.rect.y<0:
                 self.ball.velocity[1] = -self.ball.velocity[1]     
@@ -161,13 +162,4 @@ class Pong():
         
 
 
-# Main program
-def main():
-    # Initialize game
-    pong = Pong()
-    # Kick off main game loop
-    pong.game_loop()
-    #Once we have exited the main program loop we can stop the game engine:
-    pygame.quit()
 
-main()
