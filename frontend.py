@@ -19,31 +19,6 @@ cam = methods.cam_set_up(WIDTH, HEIGHT)
 face_cascade=cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_frontalface_alt2.xml")
 ds_factor=0.6
 
-def face_detection(input_frame):
-    frame = cv.resize(input_frame,None,fx=ds_factor,fy=ds_factor, interpolation=cv.INTER_AREA)
-    
-    # Face dectection
-    gray = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
-    face_rects = face_cascade.detectMultiScale(gray,1.3,5)
-    for (x,y,w,h) in face_rects:
-        # cv.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
-        paddleA.rect.y = (y+h)/2
-        break
-    return frame
-
-
-
-    # gray = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
-    # face_rects = face_cascade.detectMultiScale(gray,1.3,5)
-    
-    
-    # frame = cv.resize(frame,None,fx=ds_factor,fy=ds_factor, interpolation=cv.INTER_AREA) 
-    # for (x,y,w,h) in face_rects:
-    #     # cv.rectangle(frame,(x,y),(x+w,y+h),(255,0,0),2)
-    #     paddleA.rect.y = (y+h)/2
-    #     break
-    
- 
 # Open a new window
 size = (WIDTH, HEIGHT)
 screen = pygame.display.set_mode(size)
