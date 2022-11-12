@@ -82,7 +82,7 @@ class VideoProcessor():
 
         return (nose_x, nose_y)
     
-    def get_Y_coords(self):
+    def get_Y_coords(self, show_video = False):
         ret, frame = vp.cam.read()
         if not ret: return None
         
@@ -107,6 +107,9 @@ class VideoProcessor():
 
         # EXTRA: Modify right coord to so that its in the right place in the bigger frame
         right_nose_coord[0] += w//2
+
+        if show_video:
+            cv.imshow("Video Feed", frame)
 
         return (left_nose_coord[1], right_nose_coord[1])
 
