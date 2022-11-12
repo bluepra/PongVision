@@ -83,35 +83,38 @@ class VideoProcessor():
         return (nose_x, nose_y)
     
     def get_Y_coords(self, show_video = False):
-        ret, frame = vp.cam.read()
+        ret, frame = self.cam.read()
         if not ret: return None
         
         h,w,c = frame.shape
         frame = cv.flip(frame, 1)
 
-        frame = vp.show_fps(frame)
+        frame = self.show_fps(frame)
 
         # Break frame into 2 halves
-        left, right = vp.break_frame_into_2(frame)
+        left, right = self.break_frame_into_2(frame)
 
         # Get poses for both halves
-        left_nose_coord = vp.get_nose_coord(left)
-        right_nose_coord = vp.get_nose_coord(right)
+        left_nose_coord = self.get_nose_coord(left)
+        right_nose_coord = self.get_nose_coord(right)
 
-        left = vp.draw_nose_line(left, left_nose_coord, 'left')
-        right = vp.draw_nose_line(right, right_nose_coord, 'right')
+        left = self.draw_nose_line(left, left_nose_coord, 'left')
+        right = self.draw_nose_line(right, right_nose_coord, 'right')
 
         frame = np.concatenate((left,right),axis=1)
 
         self.cur_frame = frame
 
         # EXTRA: Modify right coord to so that its in the right place in the bigger frame
-        right_nose_coord[0] += w//2
+        # right_nose_coord[0] += w//2
 
         if show_video:
             cv.imshow("Video Feed", frame)
-
-        return (left_nose_coord[1], right_nose_coord[1])
+        
+        ret = tuple()
+        
+        return (left_nose_coord[1] if left_nose_coord else None
+        , right_nose_coord[1] if right_nose_coord else None)
 
         
 
