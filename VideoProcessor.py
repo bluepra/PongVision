@@ -19,7 +19,6 @@ class VideoProcessor():
         # FPS Information
         self.cur_time = None
         self.prev_time = 0   
-
     
     def show_fps(self, frame):
         self.cur_time = time.time()
