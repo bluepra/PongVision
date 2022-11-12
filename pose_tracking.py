@@ -1,6 +1,8 @@
 import cv2 as cv
 import mediapipe as mp
 import time
+import copy
+
 
 cam = cv.VideoCapture(0)
 mp_pose = mp.solutions.pose
@@ -33,7 +35,16 @@ def face_detection(input_frame):
         break
     return frame
 
+
+def split_frame_into_2(frame):
+    height, width = frame.shape
+    l = copy.deepcopy(frame)
+    r = frame
+    return
+
+
 def pose_estimation(frame):
+    
     frame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
     results = pose.process(frame)
     if results.pose_landmarks:
@@ -49,7 +60,7 @@ def pose_estimation(frame):
         #     print(i, pt)
         frame = cv.line(frame,pt1 = (0, nose_y), pt2=(frame_width, nose_y), color=(255,0,0), thickness=4)
 
-    return frame
+    return cv.cvtColor(frame, cv.COLOR_RGB2BGR)
 
 
 while True:
@@ -58,7 +69,7 @@ while True:
     # frame = face_detection(frame)   
 
     frame = show_fps(frame)
-    frame = cv.cvtColor(pose_estimation(frame), cv.COLOR_RGB2BGR)
+    frame = pose_estimation(frame)
 
     cv.imshow("Video Feed", frame)
 
