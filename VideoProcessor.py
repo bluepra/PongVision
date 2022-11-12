@@ -7,8 +7,9 @@ import numpy as np
 class VideoProcessor():
 
     def __init__(self) -> None:
-        # Camer
+        # Camera and frame
         self.cam = cv.VideoCapture(0)
+        self.cur_frame = None
 
         # Pose detection
         self.mp_pose = mp.solutions.pose
@@ -75,6 +76,32 @@ class VideoProcessor():
             return None
 
         return (nose_x, nose_y)
+    
+    def get_Y_coords(self):
+        ret, frame = vp.cam.read()
+        if not ret: return None
+        
+        h,w,c = frame.shape
+        frame = cv.flip(frame, 1)
+
+        frame = vp.show_fps(frame)
+
+        # Split frame into 2 halves
+        left, right = vp.split_frame_into_2(frame)
+
+        # # Get poses for both halves
+        left_nose_coord = vp.get_nose_coord(left)
+        right_nose_coord = vp.get_nose_coord(right)
+
+        left = vp.draw_nose_line(left, left_nose_coord, 'left')
+        right = vp.draw_nose_line(right, right_nose_coord, 'right')
+
+        frame = vp.stitch_left_and_right(left, right)
+        self.cur_frame = frame
+
+        return (left_nose_coord, right_nose_coord)
+
+        
 
 
 
