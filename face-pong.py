@@ -23,7 +23,7 @@ class Pong():
         pygame.init()
 
         # Start video capture
-        vp = VideoProcessor()
+        self.vp = VideoProcessor()
 
         # Open a new window
         self.size = (WIDTH, HEIGHT)
@@ -79,16 +79,15 @@ class Pong():
                         if event.key==pygame.K_x: #Pressing the x Key will quit the game
                             self.carryOn=False
 
-            #Moving the paddles when the user uses the arrow keys (player A) or "W/S" keys (player B) 
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_w]:
-                self.paddleA.moveUp(5)
-            if keys[pygame.K_s]:
-                self.paddleA.moveDown(5)
-            if keys[pygame.K_UP]:
-                self.paddleB.moveUp(5)
-            if keys[pygame.K_DOWN]:
-                self.paddleB.moveDown(5)    
+            # Get the player y-coords from the VideoProcessor
+            playerA_y, playerB_y = self.vp.get_Y_coords(show_video=True)
+            print(playerA_y, playerB_y)
+
+            # Update paddle positions
+            if playerA_y:
+                self.paddleA.rect.y = playerA_y
+            if playerB_y:
+                self.paddleB.rect.y = playerB_y
 
             # --- Game logic should go here
             self.all_sprites_list.update()
@@ -133,6 +132,10 @@ class Pong():
             # --- Limit to 60 frames per second
             self.clock.tick(60)
 
+        # End of game clean up
+        self.vp.close() 
+
+
     def update_screen(self):
         # First, clear the screen to black. 
         self.screen.fill(BLACK)
@@ -176,7 +179,7 @@ class Pong():
         if self.ball.rect.y>490:
             self.ball.velocity[1] = -self.ball.velocity[1]
         if self.ball.rect.y<0:
-            self.ball.velocity[1] = -self.ball.velocity[1]     
+            self.ball.velocity[1] = -self.ball.velocity[1]  
         
 
 # Main program
