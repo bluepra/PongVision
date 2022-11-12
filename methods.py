@@ -49,7 +49,6 @@ def pose_estimation(frame):
         #     print(i, pt)
         frame = cv.line(frame,pt1 = (0, nose_y), pt2=(frame_width, nose_y), color=(255,0,0), thickness=4)
 
-
-    return frame, nose_y
+    return cv.cvtColor(frame, cv.COLOR_RGB2BGR), nose_y
 
 
