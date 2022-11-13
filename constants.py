@@ -33,7 +33,7 @@ title_font = './assets/fonts/Charge_Vector.ttf'
 button_font = './assets/fonts/BarcadeBold.ttf'
 score_font = './assets/fonts/Charge_Vector.ttf'
 
-background_music = './assets/sounds/Pump.mp3'
+background_music = './assets/Pump.wav'
 
 score_sound = pygame.mixer.Sound('./assets/sounds/score.wav')
 paddle_hit_sound = pygame.mixer.Sound('./assets/sounds/paddle-hit.wav')
