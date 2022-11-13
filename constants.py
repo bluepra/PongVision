@@ -29,8 +29,8 @@ menu_background_img = './assets/menu_background.png'
 game_background_img = './assets/black999-background.png'
 
 
-title_font_top = './assets/fonts/right-italic-title-font.ttf'
-title_font_bottom = './assets/fonts/left-italic-title-font.ttf'
+title_font_top = './assets/fonts/italics_left_lean.ttf'
+title_font_bottom = './assets/fonts/italics_right_lean.ttf'
 button_font = './assets/fonts/BarcadeBold.ttf'
 score_font = './assets/fonts/Charge_Vector.ttf'
 
