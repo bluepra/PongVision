@@ -96,9 +96,13 @@ class Pong():
         # Intialize win conditions
         self.A_won = False
         self.B_won = False
+
+        # Intialize pause
+        self.pause = True
     
     # -------- Main Game Loop -----------
     def update_game_state(self):
+
         # Check for a winner
         if self.scoreA >= WIN_CONDITION:
             self.A_won = True
@@ -107,8 +111,10 @@ class Pong():
             self.B_won = True
             return
 
+
         # Get the player y-coords from the VideoProcessor
         a = self.vp.get_Y_coords(show_video=True)
+        if self.pause: return
         if a is None:
             print('A is None')
         playerA_y, playerB_y = a
@@ -171,7 +177,7 @@ class Pong():
             self.ball.bounce()
 
         # Check if starting round
-        if (self.cooldown and self.cooldown_ticks < 0):
+        if (not self.pause and self.cooldown and self.cooldown_ticks < 0):
             # Start the ball with a new velocity
             if (self.kick_left):
                 self.ball.velocity = [VELOCITY_MULT*-randint(4,8),VELOCITY_MULT*randint(-8,8)]

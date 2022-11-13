@@ -98,6 +98,7 @@ class Game():
         background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
         pong = Pong(game_surface)
+        pong.pause = True
 
         # Keep updating the game while we're not in a win state or exit state
         while self.state == states['pong'] and not (pong.A_won or pong.B_won):
@@ -110,6 +111,8 @@ class Game():
                     if event.key == pygame.K_q:
                         pong.vp.close()
                         self.state = states["exit"]
+                    elif event.key == pygame.K_SPACE:
+                        pong.pause = not pong.pause
 
                 
 
@@ -117,6 +120,14 @@ class Game():
             pong.update_game_state()
             pong.draw_game_surface(background)
 
+            # Put some text on the game surface
+            if pong.pause:
+                message_surface = pygame.Surface((500,50))
+                message_surface.fill(BLACK)
+                font = pygame.font.Font(score_font, 50)
+                text = font.render("Hit Space to Play", 1, GRAY)
+                message_surface.blit(text, (0,0))
+                game_surface.blit(message_surface, (120,220))
 
             self.game_screen.fill(BLACK)
             self.game_screen.blit(game_surface, (0,0))
@@ -135,7 +146,7 @@ class Game():
 
     def run_game_over(self):
         game_over_surface = pygame.Surface((WIDTH, HEIGHT))
-        back_to_menu = Button('(Back to Menu)', 160,200,400,100,background_color=BLACK, text_color=WHITE, fontsize=50)
+        back_to_menu = Button('(Back to Menu)', 160,200,400,100,background_color=BLACK, text_color=GRAY, hover_color=WHITE, fontsize=50)
         # Keep updating the game while we're not in a win state or exit state
         while self.state == states['game-over']:
             mouse_pos = pygame.mouse.get_pos()
