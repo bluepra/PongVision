@@ -10,7 +10,7 @@ sys.path.append(parent)
 # Import the pygame library and initialise the game engine
 import pygame
 
-from random import randint
+from random import randint, choice
 from FaceVideoProcessor import VideoProcessor
 from collections import deque
 from statistics import mean
@@ -91,7 +91,7 @@ class Pong():
         self.scoreB = 0
 
         # Intialize player turns
-        self.kick_left = random.choice([True, False])
+        self.kick_left = choice([True, False])
 
         # Intialize win conditions
         self.A_won = False
