@@ -169,8 +169,10 @@ class Game():
                         self.state = states['menu']
             
             if self.winner:
+                
                 winner_surface = self.get_winner_message()
-                game_over_surface.blit(winner_surface,(70,100))
+                pos = (70,100) if self.winner == 'Left' else (40,100)
+                game_over_surface.blit(winner_surface,pos)
 
             back_to_menu.update(mouse_pos)
             back_to_menu.draw(game_over_surface)
