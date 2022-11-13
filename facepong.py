@@ -78,8 +78,8 @@ class Pong():
 
         # Intialize cooldown logic
         self.last = pygame.time.get_ticks()
-        self.cooldown_ticks = 0
-        self.cooldown = False
+        self.cooldown_ticks = 2000
+        self.cooldown = True
 
         # Intialize sampling window
         self.samplesA = deque()
@@ -144,15 +144,15 @@ class Pong():
             self.play_sound(start_sound)
             self.new_round()
         if self.ball.rect.y>SCREEN_H - 10:
-            self.play_sound(paddle_hit_sound)
+            self.play_sound(paddle_hit_sound, volume = .25)
             self.ball.velocity[1] = -self.ball.velocity[1]
         if self.ball.rect.y<0:
-            self.play_sound(paddle_hit_sound)
+            self.play_sound(paddle_hit_sound, volume = .25)
             self.ball.velocity[1] = -self.ball.velocity[1]     
 
         #Detect collisions between the ball and the paddles
         if pygame.sprite.collide_mask(self.ball, self.paddleA) or pygame.sprite.collide_mask(self.ball, self.paddleB):
-            self.play_sound(paddle_hit_sound)
+            self.play_sound(paddle_hit_sound, volume = .25)
             self.ball.bounce()
 
         # Check if starting round
@@ -171,8 +171,8 @@ class Pong():
             self.cooldown_ticks -= (now - self.last)
             self.last = now
 
-    def play_sound(self, sound):
-        sound.set_volume(1)
+    def play_sound(self, sound, volume=1):
+        sound.set_volume(volume)
         sound.play(maxtime=2000)
         
     def draw_game_surface(self, background):

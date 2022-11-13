@@ -3,6 +3,7 @@ import mediapipe as mp
 import time
 import copy
 import numpy as np
+from constants import *
 
 class VideoProcessor():
 
@@ -62,9 +63,11 @@ class VideoProcessor():
     
     def get_Y_coords(self, show_video = False):
         ret, frame = self.cam.read()
+        
         if not ret: 
             return (None, None)
-        
+            
+        frame = cv.resize(frame, (WIDTH, HEIGHT))
         h,w,c = frame.shape
         frame = cv.flip(frame, 1)
 
@@ -72,7 +75,14 @@ class VideoProcessor():
 
         y_vals = None
         nose_coords = self.get_nose_coords(frame)
-        if len(nose_coords) >= 2:
+        
+        if len(nose_coords) == 1:
+            # Decide if its the left or the right
+            if nose_coords[0][0] < WIDTH // 2:
+                y_vals = (nose_coords[0][1], None)
+            else:
+                y_vals = (None, nose_coords[0][1])
+        elif len(nose_coords) >= 2:
             nose_coords = nose_coords[:2]
 
             if nose_coords[0][0] < nose_coords[1][0]:
@@ -81,25 +91,20 @@ class VideoProcessor():
             else:
                 left_nose = nose_coords[1]
                 right_nose = nose_coords[0]
-    
-            frame = self.draw_nose_lines(frame, nose_coords)
             
             y_vals = (left_nose[1], right_nose[1])
         
+        frame = self.draw_nose_lines(frame, nose_coords)
         self.cur_frame = frame
         
         if show_video:
             winname = "Face Detection"
             cv.namedWindow(winname)        # Create a named window
-            cv.moveWindow(winname, 40,30)  # Move it to (40,30)
+            cv.moveWindow(winname, 40,10)  # Move it to (40,30)
             cv.imshow(winname, frame)
 
         
-        if y_vals is None:
-            return (None, None)
-        else:
-            # print('Y_vals', y_vals)
-            return y_vals
+        return y_vals if y_vals else (None, None)
 
 
 
