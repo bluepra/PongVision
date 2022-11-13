@@ -91,7 +91,7 @@ class Pong():
         self.scoreB = 0
 
         # Intialize player turns
-        self.kick_left = False
+        self.kick_left = random.choice([True, False])
 
         # Intialize win conditions
         self.A_won = False
