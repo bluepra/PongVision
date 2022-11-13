@@ -39,7 +39,7 @@ VELOCITY_MULT = 1
 VERT_MULT = 2
 
 # Win condition
-WIN_CONDITION = 1
+WIN_CONDITION = 10
 
 class Pong():
 
