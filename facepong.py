@@ -32,7 +32,7 @@ MEAS_MIN_Y = SCREEN_H // 4
 SAMPLE_WINDOW_SIZE = 4
 
 # Ball velocity multiplier
-VELOCITY_MULT = 4
+VELOCITY_MULT = 1
 
 # Motion sensitivity multiplier
 VERT_MULT = 2
