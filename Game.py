@@ -6,7 +6,7 @@ from FaceVideoProcessor import VideoProcessor
 from collections import deque
 from facepong import Pong
 
-states = {'menu': 0, 'pong':1, 'exit': 2}
+states = {'menu': 0, 'pong':1, 'exit': 2, 'game-over': 3}
 
 
 class Game():
@@ -19,6 +19,8 @@ class Game():
         self.game_screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('Push Pong')
 
+        self.winner = None
+
 
     
     def run(self):
@@ -28,6 +30,12 @@ class Game():
             elif self.state == states['pong']:
                 print('hi')
                 self.run_pong()
+            elif self.state == states['game-over']:
+                print("Game over")
+                print(f"{self.winner} is the winner!")
+                print("Enter to continue")
+                input()
+                self.state = states['menu']
             else:
                 self.quit_game()
 
@@ -90,7 +98,12 @@ class Game():
             pygame.display.update()
             self.clock.tick(60)
         
-        self.state = states['menu']
+        if pong.A_won:
+            self.winner = 'Left'
+        if pong.B_won:
+            self.winner = 'Right'
+        
+        self.state = states['game-over']
         pong.vp.close()
         
 

@@ -100,11 +100,9 @@ class Pong():
     def update_game_state(self):
         # Check for a winner
         if self.scoreA >= WIN_CONDITION:
-            print("Player A wins!")
             self.A_won = True
             return
         elif self.scoreB >= WIN_CONDITION:
-            print("Player B wins!")
             self.B_won = True
             return
 
