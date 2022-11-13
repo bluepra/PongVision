@@ -44,3 +44,7 @@ countdown_sound = pygame.mixer.Sound('./assets/sounds/countdown.wav')
 RED = (207,64,67)
 BLUE = (108,182,207)
 GRAY = (138,138,138)
+
+# Window positions
+PYGAME_WINDOW = (50, 150)
+OPEN_CV_WINDOW = (750, 120)

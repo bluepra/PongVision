@@ -100,7 +100,8 @@ class VideoProcessor():
         if show_video:
             winname = "Face Detection"
             cv.namedWindow(winname)        # Create a named window
-            cv.moveWindow(winname, 40,10)  # Move it to (40,30)
+            cv_x, cv_y = OPEN_CV_WINDOW
+            cv.moveWindow(winname, cv_x, cv_y)  # Move it to constant pos
             cv.imshow(winname, frame)
 
         

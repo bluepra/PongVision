@@ -1,5 +1,6 @@
 import pygame
 import sys
+import os
 from util import *
 from constants import *
 from FaceVideoProcessor import VideoProcessor
@@ -16,8 +17,11 @@ class Game():
 
         self.clock = pygame.time.Clock()
 
+        # Create pygame window
+        os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' % PYGAME_WINDOW
         self.game_screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('Push Pong')
+        
 
         self.winner = None
 
