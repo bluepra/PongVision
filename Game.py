@@ -56,8 +56,8 @@ class Game():
         back_img = pygame.image.load(menu_background_img)
         back_img = pygame.transform.scale(back_img, (WIDTH, HEIGHT))
 
-        top_title = TextBox('HEAD', 40,40, 400, 250, (9,9,9), text_color=WHITE, font_size=80)
-        bottom_title = TextBox('PONG', 450, 40, 400, 250, (9,9,9), text_color=WHITE, font_size=80)
+        top_title = TextBox('HEAD', 40,40, 400, 250, (9,9,9), text_color=WHITE, font_size=80, font=title_font_top)
+        bottom_title = TextBox('PONG', 40, 140, 400, 250, (9,9,9), text_color=WHITE, font_size=80, font=title_font_bottom)
 
         buttons = self.create_menu_buttons()
         while self.state == states['menu']:

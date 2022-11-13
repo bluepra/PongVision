@@ -48,7 +48,7 @@ class Button:
             return False
 
 class TextBox:
-    def __init__(self, text, x, y, width, height, box_color, text_color, font_size):
+    def __init__(self, text, x, y, width, height, box_color, text_color, font_size, font):
         self.text = text
         self.x = x
         self.y = y
@@ -57,7 +57,8 @@ class TextBox:
         self.box_color = box_color
         self.text_color = text_color
         self.font_size = font_size
-        self.font =  pygame.font.Font(title_font, self.font_size)
+        self.font = font
+        self.font =  pygame.font.Font(self.font, self.font_size)
 
     def draw(self, surface):
         # box_surface = pygame.Surface((self.width, self.height))
