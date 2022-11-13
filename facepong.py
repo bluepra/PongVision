@@ -133,22 +133,37 @@ class Pong():
         self.all_sprites_list.update()
         
         #Check if the ball is bouncing against any of the 4 walls:
+        # Right wall
         if self.ball.rect.x>=SCREEN_W - 10:
             self.scoreA+=1
             self.ball.velocity[0] = -self.ball.velocity[0]
             self.play_sound(start_sound)
             self.new_round()
+        # Left wall
         if self.ball.rect.x<=0:
             self.scoreB+=1
             self.ball.velocity[0] = -self.ball.velocity[0]
             self.play_sound(start_sound)
             self.new_round()
+        # Bottom wall
         if self.ball.rect.y>SCREEN_H - 10:
             self.play_sound(paddle_hit_sound, volume = .25)
             self.ball.velocity[1] = -self.ball.velocity[1]
+        # Top wall
         if self.ball.rect.y<0:
             self.play_sound(paddle_hit_sound, volume = .25)
-            self.ball.velocity[1] = -self.ball.velocity[1]     
+            self.ball.velocity[1] = -self.ball.velocity[1]
+        # Behind paddleA
+        if self.paddleA.rect.y < self.ball.rect.x and self.paddleA.rect.y + self.paddleA.height:
+            if self.ball.rect.x < self.paddleA.rect.x:
+                self.play_sound(paddle_hit_sound)
+                self.ball.velocity[1] = -self.ball.velocity[1]
+        # Behind paddleB
+        if self.paddleB.rect.y < self.ball.rect.x and self.paddleB.rect.y + self.paddleA.height:
+            if self.ball.rect.x > self.paddleB.rect.x:
+                self.play_sound(paddle_hit_sound)
+                self.ball.velocity[1] = -self.ball.velocity[1]
+             
 
         #Detect collisions between the ball and the paddles
         if pygame.sprite.collide_mask(self.ball, self.paddleA) or pygame.sprite.collide_mask(self.ball, self.paddleB):
