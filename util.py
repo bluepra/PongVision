@@ -111,6 +111,8 @@ class Paddle(pygame.sprite.Sprite):
         
         # Pass in the color of the Paddle, its width and height.
         # Set the background color and set it to be transparent
+        self.height = height
+        self.width = width
         self.image = pygame.Surface([width, height])
         self.image.fill(BLACK)
         self.image.set_colorkey(BLACK)

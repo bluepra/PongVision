@@ -207,8 +207,8 @@ class Pong():
         scaled = (ycoord-MEAS_MIN_Y)*(SCREEN_H / (MEAS_MAX_Y - MEAS_MIN_Y))
         if scaled < 0:
             return 0
-        elif scaled > SCREEN_H:
-            return SCREEN_H
+        elif scaled > SCREEN_H-self.paddleA.height:
+            return SCREEN_H-self.paddleA.height
         else:
             return scaled
     
