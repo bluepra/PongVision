@@ -42,8 +42,8 @@ class Game():
 
     def create_menu_buttons(self):
         # play_img = pygame.transform.scale(pygame.image.load('assets/play.png'), (50,50))
-        play_button = Button("(Play)", 460, 170, 175, 100, background_color=BLACK, text_color=WHITE, fontsize=40)
-        exit_button = Button("(Exit )", 460, 250, 150, 100, background_color=BLACK, text_color=WHITE, fontsize=40)
+        play_button = Button("(Play)", 460, 170, 175, 60, background_color=BLACK, text_color=GRAY, fontsize=40)
+        exit_button = Button("(Exit )", 460, 250, 150, 60, background_color=BLACK, text_color=GRAY, fontsize=40)
 
         return [play_button, exit_button]
 
@@ -52,8 +52,8 @@ class Game():
         back_img = pygame.image.load(menu_background_img)
         back_img = pygame.transform.scale(back_img, (WIDTH, HEIGHT))
 
-        top_title = TextBox('HEAD', 40, 160, 400, 250, (9,9,9), text_color=WHITE, font_size=100)
-        bottom_title = TextBox('PONG', 40, 260, 400, 200, (9,9,9), text_color=WHITE, font_size=100)
+        top_title = TextBox('HEAD', 40,40, 400, 250, (9,9,9), text_color=WHITE, font_size=80)
+        bottom_title = TextBox('PONG', 450, 40, 400, 250, (9,9,9), text_color=WHITE, font_size=80)
 
         buttons = self.create_menu_buttons()
         while self.state == states['menu']:

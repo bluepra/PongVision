@@ -3,24 +3,27 @@ from constants import *
 from random import randint
 
 class Button:
-    def __init__(self, text, x, y, width, height, background_color, text_color, fontsize, image=None):
+    def __init__(self, text, x, y, width, height, background_color, text_color, fontsize, hover_color = WHITE):
         self.text = text
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.font = pygame.font.Font(button_font, fontsize)
-        self.hover_font = pygame.font.Font(button_font, fontsize)
+        self.hover = False
         self.background_color = background_color
         self.text_color = text_color
-        self.image = image
+        self.hover_color = hover_color
         self.surface = None
 
     def draw(self, surface):
         self.surface = pygame.Surface((self.width, self.height))
         self.surface.fill(self.background_color)
 
-        word = self.font.render(self.text, True, self.text_color)
+        if self.hover:
+            word = self.font.render(self.text, True, self.hover_color)
+        else:
+            word = self.font.render(self.text, True, self.text_color)
         self.surface.blit(word, (10,10))
 
         surface.blit(self.surface, (self.x,self.y))
@@ -29,11 +32,11 @@ class Button:
     def update(self, mouse_pos):
         if mouse_pos[0] >= self.x and mouse_pos[0] <= (self.x + self.width):
             if mouse_pos[1] >= self.y and mouse_pos[1] <= (self.y + self.height):
-                self.font = self.hover_font
+                self.hover = True
             else:
-                self.font = self.font
+                self.hover = False
         else:
-            self.font = self.font
+            self.hover = False
 
     def check_if_clicked(self, mouse_pos):
         if mouse_pos[0] >= self.x and mouse_pos[0] <= (self.x + self.width):
@@ -54,7 +57,7 @@ class TextBox:
         self.box_color = box_color
         self.text_color = text_color
         self.font_size = font_size
-        self.font =  pygame.font.Font(title_font, 100)
+        self.font =  pygame.font.Font(title_font, self.font_size)
 
     def draw(self, surface):
         # box_surface = pygame.Surface((self.width, self.height))
@@ -99,7 +102,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect.y += self.velocity[1]
           
     def bounce(self):
-        self.velocity[0] = -self.velocity[0]
+        self.velocity[0] = -self.velocity[0]*randint(1,5)
         self.velocity[1] = randint(-8,8)
 
 

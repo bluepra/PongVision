@@ -29,9 +29,9 @@ menu_background_img = './assets/menu_background.png'
 game_background_img = './assets/black999-background.png'
 
 
-title_font = './assets/fonts/Championship.ttf'
+title_font = './assets/fonts/Charge_Vector.ttf'
 button_font = './assets/fonts/BarcadeBold.ttf'
-score_font = './assets/fonts/score_font.ttf'
+score_font = './assets/fonts/Charge_Vector.ttf'
 
 background_music = './assets/sounds/Pump.mp3'
 
@@ -43,3 +43,4 @@ countdown_sound = pygame.mixer.Sound('./assets/sounds/countdown.wav')
 
 RED = (207,64,67)
 BLUE = (108,182,207)
+GRAY = (138,138,138)
