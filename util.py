@@ -1,6 +1,6 @@
 import pygame
 from constants import *
-from random import randint
+from random import uniform, randint
 
 class Button:
     def __init__(self, text, x, y, width, height, background_color, text_color, fontsize, hover_color = WHITE):
@@ -103,7 +103,7 @@ class Ball(pygame.sprite.Sprite):
         self.rect.y += self.velocity[1]
           
     def bounce(self):
-        self.velocity[0] = -self.velocity[0]*randint(1,5)
+        self.velocity[0] = -self.velocity[0]*uniform(.9,1.25)
         self.velocity[1] = randint(-8,8)
 
 

@@ -21,6 +21,7 @@ SAMPLE_WINDOW_SIZE = 4
 
 # Ball velocity multiplier
 VELOCITY_MULT = 4
+MAX_SPEED = 5
 
 # Motion sensitivity multiplier
 VERT_MULT = 2
