@@ -21,8 +21,13 @@ class Game():
 
         self.winner = None
 
+        # Game music
+        music = pygame.mixer.Sound(background_music)
+        music.set_volume(.1)
+        music.play(-1)
 
-    
+        
+
     def run(self):
         while self.state != states['exit']:
             if self.state == states["menu"]:
@@ -31,24 +36,26 @@ class Game():
                 print('hi')
                 self.run_pong()
             elif self.state == states['game-over']:
-                print("Game over")
-                print(f"{self.winner} is the winner!")
-                print("Enter to continue")
-                input()
-                self.state = states['menu']
+                self.run_game_over()
             else:
                 self.quit_game()
 
-    def create_buttons(self):
-        play_button = Button("Play", 100, 100, 200, 50, color=WHITE)
-        exit_button = Button("Exit", 100, 300, 200, 50, color=WHITE)
+    def create_menu_buttons(self):
+        # play_img = pygame.transform.scale(pygame.image.load('assets/play.png'), (50,50))
+        play_button = Button("(Play)", 460, 170, 175, 100, background_color=BLACK, text_color=WHITE, fontsize=40)
+        exit_button = Button("(Exit )", 460, 250, 150, 100, background_color=BLACK, text_color=WHITE, fontsize=40)
 
         return [play_button, exit_button]
 
     def run_menu(self):
         menu_surface = pygame.Surface((WIDTH, HEIGHT))
+        back_img = pygame.image.load(menu_background_img)
+        back_img = pygame.transform.scale(back_img, (WIDTH, HEIGHT))
 
-        buttons = self.create_buttons()
+        top_title = TextBox('HEAD', 40, 160, 400, 250, (9,9,9), text_color=WHITE, font_size=100)
+        bottom_title = TextBox('PONG', 40, 260, 400, 200, (9,9,9), text_color=WHITE, font_size=100)
+
+        buttons = self.create_menu_buttons()
         while self.state == states['menu']:
             mouse_pos = pygame.mouse.get_pos()
 
@@ -59,11 +66,15 @@ class Game():
                 
                     for button in buttons:
                         if button.check_if_clicked(mouse_pos):
-                            if button.text == "Play":
+                            if button.text == "(Play)":
                                 self.state = states['pong']
-                            elif button.text == "Exit":
+                            elif button.text == "(Exit )":
                                 self.state = states['exit']
+            
 
+            menu_surface.blit(back_img, (0,0))
+            top_title.draw(menu_surface)
+            bottom_title.draw(menu_surface)
             for button in buttons:
                 button.update(mouse_pos)
                 button.draw(menu_surface)
@@ -76,7 +87,9 @@ class Game():
    
     def run_pong(self):
         game_surface = pygame.Surface((WIDTH, HEIGHT))
-        
+        background = pygame.image.load(game_background_img)
+        background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+
         pong = Pong(game_surface)
 
         # Keep updating the game while we're not in a win state or exit state
@@ -88,8 +101,9 @@ class Game():
                     self.state = states["exit"]
                 
 
+            # pong.refresh_surface(background)
             pong.update_game_state()
-            pong.draw_game_surface()
+            pong.draw_game_surface(background)
 
 
             self.game_screen.fill(BLACK)
@@ -106,6 +120,29 @@ class Game():
         self.state = states['game-over']
         pong.vp.close()
         
+
+    def run_game_over(self):
+        game_over_surface = pygame.Surface((WIDTH, HEIGHT))
+        back_to_menu = Button('(Back to Menu)', 160,200,400,100,background_color=BLACK, text_color=WHITE, fontsize=50)
+        # Keep updating the game while we're not in a win state or exit state
+        while self.state == states['game-over']:
+            mouse_pos = pygame.mouse.get_pos()
+
+            for event in pygame.event.get():
+                if event.type is pygame.QUIT:
+                    self.state = states["exit"]
+                elif pygame.mouse.get_pressed()[0] == 1:
+                    if back_to_menu.check_if_clicked(mouse_pos):
+                        self.winner = None
+                        self.state = states['menu']
+                
+            back_to_menu.update(mouse_pos)
+            back_to_menu.draw(game_over_surface)
+            self.game_screen.fill(BLACK)
+            self.game_screen.blit(game_over_surface, (0,0))
+
+            pygame.display.update()
+            self.clock.tick(60)
 
     def quit_game(self):
         pygame.quit()

@@ -2,6 +2,7 @@
 import sys
 import os
 from util import *
+import pygame
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
@@ -38,7 +39,7 @@ VELOCITY_MULT = 1
 VERT_MULT = 2
 
 # Win condition
-WIN_CONDITION = 2
+WIN_CONDITION = 20
 
 class Pong():
 
@@ -52,15 +53,15 @@ class Pong():
         self.size = (SCREEN_W, SCREEN_H)
         self.surface = surface
 
-        self.paddleA = Paddle(WHITE, 10, 100)
+        self.paddleA = Paddle(RED, 10, 100)
         self.paddleA.rect.x = 5
         self.paddleA.rect.y = 200
 
-        self.paddleB = Paddle(WHITE, 10, 100)
+        self.paddleB = Paddle(BLUE, 10, 100)
         self.paddleB.rect.x = SCREEN_W - 15
         self.paddleB.rect.y = 200
 
-        self.ball = Ball(WHITE,10,10)
+        self.ball = Ball(WHITE,20,20)
         self.ball.rect.x = SCREEN_CENTER_X
         self.ball.rect.y = SCREEN_CENTER_Y
 
@@ -95,7 +96,7 @@ class Pong():
         # Intialize win conditions
         self.A_won = False
         self.B_won = False
-
+    
     # -------- Main Game Loop -----------
     def update_game_state(self):
         # Check for a winner
@@ -135,18 +136,23 @@ class Pong():
         if self.ball.rect.x>=SCREEN_W - 10:
             self.scoreA+=1
             self.ball.velocity[0] = -self.ball.velocity[0]
+            self.play_sound(start_sound)
             self.new_round()
         if self.ball.rect.x<=0:
             self.scoreB+=1
             self.ball.velocity[0] = -self.ball.velocity[0]
+            self.play_sound(start_sound)
             self.new_round()
         if self.ball.rect.y>SCREEN_H - 10:
+            self.play_sound(paddle_hit_sound)
             self.ball.velocity[1] = -self.ball.velocity[1]
         if self.ball.rect.y<0:
+            self.play_sound(paddle_hit_sound)
             self.ball.velocity[1] = -self.ball.velocity[1]     
 
         #Detect collisions between the ball and the paddles
         if pygame.sprite.collide_mask(self.ball, self.paddleA) or pygame.sprite.collide_mask(self.ball, self.paddleB):
+            self.play_sound(paddle_hit_sound)
             self.ball.bounce()
 
         # Check if starting round
@@ -165,18 +171,21 @@ class Pong():
             self.cooldown_ticks -= (now - self.last)
             self.last = now
 
-
-    def draw_game_surface(self):
+    def play_sound(self, sound):
+        sound.set_volume(1)
+        sound.play(maxtime=2000)
+        
+    def draw_game_surface(self, background):
         # First, clear the screen to black. 
-        self.surface.fill(BLACK)
+        self.surface.blit(background, (0,0))
         #Draw the net
-        pygame.draw.line(self.surface, WHITE, [349, 0], [349, 500], 5)
+        # pygame.draw.line(self.surface, WHITE, [349, 0], [349, 500], 5)
         
         #Now let's draw all the sprites in one go. (For now we only have 2 sprites!)
         self.all_sprites_list.draw(self.surface) 
 
         #Display scores:
-        font = pygame.font.Font(None, 74)
+        font = pygame.font.Font(score_font, 74)
         text = font.render(str(self.scoreA), 1, WHITE)
         self.surface.blit(text, (250,10))
         text = font.render(str(self.scoreB), 1, WHITE)
@@ -193,21 +202,6 @@ class Pong():
         self.cooldown_ticks = 500  
         self.cooldown = True
 
-    #Check if the ball is bouncing against any of the 4 walls:
-    def check_wall_collisions(self):
-        if self.ball.rect.x>=690:
-            self.scoreA+=1
-            self.ball.velocity[0] = -self.ball.velocity[0]
-            self.new_round()
-        if self.ball.rect.x<=0:
-            self.scoreB+=1
-            self.ball.velocity[0] = -self.ball.velocity[0]
-            self.new_round()
-        if self.ball.rect.y>490:
-            self.ball.velocity[1] = -self.ball.velocity[1]
-        if self.ball.rect.y<0:
-            self.ball.velocity[1] = -self.ball.velocity[1]  
-
 
     def scale_ycoord(self, ycoord: int):
         scaled = (ycoord-MEAS_MIN_Y)*(SCREEN_H / (MEAS_MAX_Y - MEAS_MIN_Y))
@@ -217,7 +211,7 @@ class Pong():
             return SCREEN_H
         else:
             return scaled
-        
+    
 
 # # Main program
 # def main():

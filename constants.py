@@ -1,4 +1,8 @@
-BLACK = (0,0,0)
+import pygame
+
+pygame.mixer.init()
+
+BLACK = (9,9,9)
 WHITE = (255,255,255)
 
 WIDTH = 700
@@ -20,3 +24,22 @@ VELOCITY_MULT = 4
 
 # Motion sensitivity multiplier
 VERT_MULT = 2
+
+menu_background_img = './assets/menu_background.png'
+game_background_img = './assets/black999-background.png'
+
+
+title_font = './assets/fonts/Championship.ttf'
+button_font = './assets/fonts/BarcadeBold.ttf'
+score_font = './assets/fonts/score_font.ttf'
+
+background_music = './assets/sounds/Pump.mp3'
+
+score_sound = pygame.mixer.Sound('./assets/sounds/score.wav')
+paddle_hit_sound = pygame.mixer.Sound('./assets/sounds/paddle-hit.wav')
+start_sound = pygame.mixer.Sound('./assets/sounds/start.wav')
+countdown_sound = pygame.mixer.Sound('./assets/sounds/countdown.wav')
+
+
+RED = (207,64,67)
+BLUE = (108,182,207)
