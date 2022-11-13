@@ -45,8 +45,8 @@ class Game():
             mouse_pos = pygame.mouse.get_pos()
 
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.state == states["exit"]
+                if event.type is pygame.QUIT:
+                    self.state = states["exit"]
                 elif pygame.mouse.get_pressed()[0] == 1:
                 
                     for button in buttons:
@@ -71,14 +71,14 @@ class Game():
         
         pong = Pong(game_surface)
 
-        while self.state == states['pong']:
+        # Keep updating the game while we're not in a win state or exit state
+        while self.state == states['pong'] and not (pong.A_won or pong.B_won):
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pong.vp.close()
-                    self.state == states["exit"]
+                    self.state = states["exit"]
                 
-
 
             pong.update_game_state()
             pong.draw_game_surface()
@@ -89,6 +89,10 @@ class Game():
 
             pygame.display.update()
             self.clock.tick(60)
+        
+        self.state = states['menu']
+        pong.vp.close()
+        
 
     def quit_game(self):
         pygame.quit()

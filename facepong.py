@@ -37,6 +37,9 @@ VELOCITY_MULT = 1
 # Motion sensitivity multiplier
 VERT_MULT = 2
 
+# Win condition
+WIN_CONDITION = 2
+
 class Pong():
 
     def __init__(self, surface):
@@ -89,8 +92,22 @@ class Pong():
         # Intialize player turns
         self.kick_left = False
 
+        # Intialize win conditions
+        self.A_won = False
+        self.B_won = False
+
     # -------- Main Game Loop -----------
     def update_game_state(self):
+        # Check for a winner
+        if self.scoreA >= WIN_CONDITION:
+            print("Player A wins!")
+            self.A_won = True
+            return
+        elif self.scoreB >= WIN_CONDITION:
+            print("Player B wins!")
+            self.B_won = True
+            return
+
         # Get the player y-coords from the VideoProcessor
         a = self.vp.get_Y_coords(show_video=True)
         if a is None:
