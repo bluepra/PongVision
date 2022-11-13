@@ -49,12 +49,11 @@ class VideoProcessor():
         
         results = self.face_detection.process(image)
 
-        # Draw the face detection annotations on the image
         image = cv.cvtColor(image, cv.COLOR_RGB2BGR)
         nose_coords = []
         if results.detections:
             for detection in results.detections:
-                nose = nose = self.mp_face_detection.get_key_point(detection, self.mp_face_detection.FaceKeyPoint.NOSE_TIP)
+                nose = self.mp_face_detection.get_key_point(detection, self.mp_face_detection.FaceKeyPoint.NOSE_TIP)
                 nose_y = int(nose.y * h)
                 nose_x = int(nose.x * w)
                 nose_coords.append((nose_x, nose_y))
@@ -68,33 +67,30 @@ class VideoProcessor():
         h,w,c = frame.shape
         frame = cv.flip(frame, 1)
 
-        # frame = vp.show_fps(frame)
+        frame = vp.show_fps(frame)
 
-        # y_vals = None
-        # nose_coords = self.get_nose_coords(frame)
-        # if len(nose_coords) >= 2:
-        #     nose_coords = nose_coords[:2]
+        y_vals = None
+        nose_coords = self.get_nose_coords(frame)
+        if len(nose_coords) >= 2:
+            nose_coords = nose_coords[:2]
 
-        #     if nose_coords[0][0] < nose_coords[1][0]:
-        #         left_nose = nose_coords[0]
-        #         right_nose = nose_coords[1]
-        #     else:
-        #         left_nose = nose_coords[1]
-        #         right_nose = nose_coords[0]
+            if nose_coords[0][0] < nose_coords[1][0]:
+                left_nose = nose_coords[0]
+                right_nose = nose_coords[1]
+            else:
+                left_nose = nose_coords[1]
+                right_nose = nose_coords[0]
     
-        #     frame = self.draw_nose_lines(frame, nose_coords)
+            frame = self.draw_nose_lines(frame, nose_coords)
             
-        #     y_vals = (left_nose[1], right_nose[1])
+            y_vals = (left_nose[1], right_nose[1])
         
-        # self.cur_frame = frame
+        self.cur_frame = frame
         
         if show_video:
             cv.imshow('Face Detection', frame)
 
-        # return y_vals if y_vals else (0,0)
-        return (0,0)
-
-        
+        return y_vals if y_vals else (0,0) 
 
 
 
@@ -102,7 +98,7 @@ if __name__ == '__main__':
     vp = VideoProcessor()
     
     while True:
-        left, right = vp.get_Y_coords(show_video=True)
-        print(left,right)
-
+        left, right = vp.get_Y_coords(show_video=True)       
+        if cv.waitKey(5) == ord('q'):
+            break
     vp.close()
