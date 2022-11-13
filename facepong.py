@@ -62,8 +62,8 @@ class Pong():
         self.paddleB.rect.y = 200
 
         self.ball = Ball(WHITE,20,20)
-        self.ball.rect.x = SCREEN_CENTER_X
-        self.ball.rect.y = SCREEN_CENTER_Y
+        self.ball.rect.x = SCREEN_CENTER_X - (self.ball.width // 2)
+        self.ball.rect.y = SCREEN_CENTER_Y - (self.ball.height // 2)
 
         #This will be a list that will contain all the sprites we intend to use in our game.
         self.all_sprites_list = pygame.sprite.Group()
@@ -193,8 +193,8 @@ class Pong():
     
     def new_round(self):
         # Move ball to center
-        self.ball.rect.x = SCREEN_CENTER_X
-        self.ball.rect.y = SCREEN_CENTER_Y
+        self.ball.rect.x = SCREEN_CENTER_X - (self.ball.width // 2)
+        self.ball.rect.y = SCREEN_CENTER_Y - (self.ball.height // 2)
         # Kill velocity
         self.ball.velocity = [0,0]
         # Start game countdown

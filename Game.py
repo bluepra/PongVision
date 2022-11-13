@@ -62,6 +62,9 @@ class Game():
             for event in pygame.event.get():
                 if event.type is pygame.QUIT:
                     self.state = states["exit"]
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        self.state = states["exit"]
                 elif pygame.mouse.get_pressed()[0] == 1:
                 
                     for button in buttons:
@@ -99,6 +102,11 @@ class Game():
                 if event.type == pygame.QUIT:
                     pong.vp.close()
                     self.state = states["exit"]
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_q:
+                        pong.vp.close()
+                        self.state = states["exit"]
+
                 
 
             # pong.refresh_surface(background)
