@@ -1,9 +1,15 @@
+# Get parent directory
+import sys
+import os
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+
 # Import the pygame library and initialise the game engine
 import pygame
 from paddle import Paddle
 from ball import Ball
 from random import randint
-import methods
 from VideoProcessor import VideoProcessor
 from collections import deque
 from statistics import mean
