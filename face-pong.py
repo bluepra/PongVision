@@ -5,6 +5,8 @@ from ball import Ball
 from random import randint
 import methods
 from VideoProcessor import VideoProcessor
+from collections import deque
+from statistics import mean
  
  
 # Define some colors
@@ -15,6 +17,15 @@ WIDTH, HEIGHT = 700, 500
 # Define screen params
 SCREEN_CENTER_X = WIDTH / 2
 SCREEN_CENTER_Y = HEIGHT / 2
+
+# Sampling window size
+SAMPLE_WINDOW_SIZE = 4
+
+# Ball velocity multiplier
+VELOCITY_MULT = 4
+
+# Motion sensitivity multiplier
+VERT_MULT = 2
 
 class Pong():
 
@@ -61,6 +72,11 @@ class Pong():
         self.cooldown_ticks = 0
         self.cooldown = False
 
+        # Intialize sampling window
+        self.samplesA = deque()
+        self.samplesB = deque()
+        self.window_size = SAMPLE_WINDOW_SIZE
+
         #Initialise player scores
         self.scoreA = 0
         self.scoreB = 0
@@ -82,11 +98,21 @@ class Pong():
             # Get the player y-coords from the VideoProcessor
             playerA_y, playerB_y = self.vp.get_Y_coords(show_video=True)
 
+            # Smooth coord values
+            if playerA_y:
+                self.samplesA.append(playerA_y)
+            if playerB_y:
+                self.samplesB.append(playerB_y)
+            if len(self.samplesA) > self.window_size:
+                self.samplesA.popleft()
+            if len(self.samplesB) > self.window_size:
+                self.samplesB.popleft()
+
             # Update paddle positions
             if playerA_y:
-                self.paddleA.rect.y = playerA_y
+                self.paddleA.rect.y = VERT_MULT*mean(self.samplesA)-SCREEN_CENTER_Y
             if playerB_y:
-                self.paddleB.rect.y = playerB_y
+                self.paddleB.rect.y = VERT_MULT*mean(self.samplesB)-SCREEN_CENTER_Y
 
             # --- Game logic should go here
             self.all_sprites_list.update()
@@ -113,10 +139,10 @@ class Pong():
             if (self.cooldown and self.cooldown_ticks < 0):
                 # Start the ball with a new velocity
                 if (self.kick_left):
-                    self.ball.velocity = [-randint(4,8),randint(-8,8)]
+                    self.ball.velocity = [VELOCITY_MULT*-randint(4,8),VELOCITY_MULT*randint(-8,8)]
                     self.kick_left = False
                 else:
-                    self.ball.velocity = [randint(4,8),randint(-8,8)]
+                    self.ball.velocity = [VELOCITY_MULT*randint(4,8),VELOCITY_MULT*randint(-8,8)]
                     self.kick_left = True
                 self.cooldown = False
             else:
