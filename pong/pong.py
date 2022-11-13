@@ -3,7 +3,6 @@ import pygame
 from paddle import Paddle
 from ball import Ball
 from random import randint
-import methods
  
  
 # Define some colors
