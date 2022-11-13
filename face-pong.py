@@ -12,11 +12,15 @@ from statistics import mean
 # Define some colors
 BLACK = (0,0,0)
 WHITE = (255,255,255)
-WIDTH, HEIGHT = 700, 500
+SCREEN_W, SCREEN_H = 700, 500
 
 # Define screen params
-SCREEN_CENTER_X = WIDTH / 2
-SCREEN_CENTER_Y = HEIGHT / 2
+SCREEN_CENTER_X = SCREEN_W // 2
+SCREEN_CENTER_Y = SCREEN_H // 2
+MEAS_MAX_Y = SCREEN_H * 3 // 4
+MEAS_MIN_Y = SCREEN_H // 4
+# MEAS_MAX_Y = SCREEN_H * 5 // 8
+# MEAS_MIN_Y = SCREEN_H *3 // 8
 
 # Sampling window size
 SAMPLE_WINDOW_SIZE = 4
@@ -37,7 +41,7 @@ class Pong():
         self.vp = VideoProcessor()
 
         # Open a new window
-        self.size = (WIDTH, HEIGHT)
+        self.size = (SCREEN_W, SCREEN_H)
         self.screen = pygame.display.set_mode(self.size)
         pygame.display.set_caption("Pong")
 
@@ -46,7 +50,7 @@ class Pong():
         self.paddleA.rect.y = 200
 
         self.paddleB = Paddle(WHITE, 10, 100)
-        self.paddleB.rect.x = WIDTH - 15
+        self.paddleB.rect.x = SCREEN_W - 15
         self.paddleB.rect.y = 200
 
         self.ball = Ball(WHITE,10,10)
@@ -110,15 +114,15 @@ class Pong():
 
             # Update paddle positions
             if playerA_y:
-                self.paddleA.rect.y = VERT_MULT*mean(self.samplesA)-SCREEN_CENTER_Y
+                self.paddleA.rect.y = self.scale_ycoord(mean(self.samplesA))
             if playerB_y:
-                self.paddleB.rect.y = VERT_MULT*mean(self.samplesB)-SCREEN_CENTER_Y
+                self.paddleB.rect.y = self.scale_ycoord(mean(self.samplesB))
 
             # --- Game logic should go here
             self.all_sprites_list.update()
             
             #Check if the ball is bouncing against any of the 4 walls:
-            if self.ball.rect.x>=WIDTH - 10:
+            if self.ball.rect.x>=SCREEN_W - 10:
                 self.scoreA+=1
                 self.ball.velocity[0] = -self.ball.velocity[0]
                 self.new_round()
@@ -126,7 +130,7 @@ class Pong():
                 self.scoreB+=1
                 self.ball.velocity[0] = -self.ball.velocity[0]
                 self.new_round()
-            if self.ball.rect.y>HEIGHT - 10:
+            if self.ball.rect.y>SCREEN_H - 10:
                 self.ball.velocity[1] = -self.ball.velocity[1]
             if self.ball.rect.y<0:
                 self.ball.velocity[1] = -self.ball.velocity[1]     
@@ -205,6 +209,16 @@ class Pong():
             self.ball.velocity[1] = -self.ball.velocity[1]
         if self.ball.rect.y<0:
             self.ball.velocity[1] = -self.ball.velocity[1]  
+
+
+    def scale_ycoord(self, ycoord: int):
+        scaled = (ycoord-MEAS_MIN_Y)*(SCREEN_H / (MEAS_MAX_Y - MEAS_MIN_Y))
+        if scaled < 0:
+            return 0
+        elif scaled > SCREEN_H:
+            return SCREEN_H
+        else:
+            return scaled
         
 
 # Main program
