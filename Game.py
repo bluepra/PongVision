@@ -144,9 +144,18 @@ class Game():
         pong.vp.close()
         
 
+    def get_winner_message(self):
+        winner_surface = pygame.Surface((800,100))
+        winner_surface.fill(BLACK)
+        font = pygame.font.Font(score_font, 100)
+        color = RED if self.winner == "Left" else BLUE
+        text = font.render(self.winner + " Wins!", 1, color)
+        winner_surface.blit(text, (0,0))
+        return winner_surface
+
     def run_game_over(self):
         game_over_surface = pygame.Surface((WIDTH, HEIGHT))
-        back_to_menu = Button('(Back to Menu)', 160,200,400,100,background_color=BLACK, text_color=GRAY, hover_color=WHITE, fontsize=50)
+        back_to_menu = Button('(Back to Menu)', 160,220,400,100,background_color=BLACK, text_color=GRAY, hover_color=WHITE, fontsize=50)
         # Keep updating the game while we're not in a win state or exit state
         while self.state == states['game-over']:
             mouse_pos = pygame.mouse.get_pos()
@@ -158,10 +167,16 @@ class Game():
                     if back_to_menu.check_if_clicked(mouse_pos):
                         self.winner = None
                         self.state = states['menu']
-                
+            
+            if self.winner:
+                winner_surface = self.get_winner_message()
+                game_over_surface.blit(winner_surface,(70,100))
+
             back_to_menu.update(mouse_pos)
             back_to_menu.draw(game_over_surface)
+            
             self.game_screen.fill(BLACK)
+            
             self.game_screen.blit(game_over_surface, (0,0))
 
             pygame.display.update()
