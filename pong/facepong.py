@@ -10,7 +10,7 @@ import pygame
 from paddle import Paddle
 from ball import Ball
 from random import randint
-from VideoProcessor import VideoProcessor
+from FaceVideoProcessor import VideoProcessor
 from collections import deque
 from statistics import mean
  
@@ -39,17 +39,13 @@ VERT_MULT = 2
 
 class Pong():
 
-    def __init__(self):
-        # Start pygame engine
-        pygame.init()
-
+    def __init__(self, surface):
         # Start video capture
         self.vp = VideoProcessor()
 
         # Open a new window
         self.size = (SCREEN_W, SCREEN_H)
-        self.screen = pygame.display.set_mode(self.size)
-        pygame.display.set_caption("Pong")
+        self.surface = surface
 
         self.paddleA = Paddle(WHITE, 10, 100)
         self.paddleA.rect.x = 5
@@ -74,9 +70,6 @@ class Pong():
         # The loop will carry on until the user exits the game (e.g. clicks the close button).
         self.carryOn = True
 
-        # The clock will be used to control how fast the screen updates
-        self.clock = pygame.time.Clock()
-
         # Intialize cooldown logic
         self.last = pygame.time.get_ticks()
         self.cooldown_ticks = 0
@@ -95,7 +88,7 @@ class Pong():
         self.kick_left = False
 
     # -------- Main Game Loop -----------
-    def game_loop(self):
+    def update_game_state(self):
         while self.carryOn:
             # --- Main event loop
             for event in pygame.event.get(): # User did something
@@ -162,7 +155,7 @@ class Pong():
                 self.last = now
             
             # --- Redraw the screen
-            self.update_screen()
+            self.draw_surface()
             
             # --- Limit to 60 frames per second
             self.clock.tick(60)
@@ -171,24 +164,21 @@ class Pong():
         self.vp.close() 
 
 
-    def update_screen(self):
+    def draw_surface(self):
         # First, clear the screen to black. 
-        self.screen.fill(BLACK)
+        self.surface.fill(BLACK)
         #Draw the net
-        pygame.draw.line(self.screen, WHITE, [349, 0], [349, 500], 5)
+        pygame.draw.line(self.surface, WHITE, [349, 0], [349, 500], 5)
         
         #Now let's draw all the sprites in one go. (For now we only have 2 sprites!)
-        self.all_sprites_list.draw(self.screen) 
+        self.all_sprites_list.draw(self.surface) 
 
         #Display scores:
         font = pygame.font.Font(None, 74)
         text = font.render(str(self.scoreA), 1, WHITE)
-        self.screen.blit(text, (250,10))
+        self.surface.blit(text, (250,10))
         text = font.render(str(self.scoreB), 1, WHITE)
-        self.screen.blit(text, (420,10))
-
-        # --- Go ahead and update the screen with what we've drawn.
-        pygame.display.flip()
+        self.surface.blit(text, (420,10))
     
     def new_round(self):
         # Move ball to center
@@ -227,14 +217,14 @@ class Pong():
             return scaled
         
 
-# Main program
-def main():
-    # Initialize game
-    pong = Pong()
-    # Kick off main game loop
-    pong.game_loop()
-    #Once we have exited the main program loop we can stop the game engine:
-    pygame.quit()
+# # Main program
+# def main():
+#     # Initialize game
+#     pong = Pong()
+#     # Kick off main game loop
+#     pong.game_loop()
+#     #Once we have exited the main program loop we can stop the game engine:
+#     pygame.quit()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

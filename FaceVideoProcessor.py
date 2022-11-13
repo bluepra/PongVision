@@ -62,12 +62,13 @@ class VideoProcessor():
     
     def get_Y_coords(self, show_video = False):
         ret, frame = self.cam.read()
-        if not ret: return None
+        if not ret: 
+            return (None, None)
         
         h,w,c = frame.shape
         frame = cv.flip(frame, 1)
 
-        frame = vp.show_fps(frame)
+        frame = self.show_fps(frame)
 
         y_vals = None
         nose_coords = self.get_nose_coords(frame)
@@ -90,7 +91,12 @@ class VideoProcessor():
         if show_video:
             cv.imshow('Face Detection', frame)
 
-        return y_vals if y_vals else (0,0) 
+        
+        if y_vals is None:
+            return (None, None)
+        else:
+            # print('Y_vals', y_vals)
+            return y_vals
 
 
 
