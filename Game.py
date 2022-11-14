@@ -20,7 +20,7 @@ class Game():
         # Create pygame window
         os.environ['SDL_VIDEO_WINDOW_POS'] = '%d,%d' % PYGAME_WINDOW
         self.game_screen = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption('Push Pong')
+        pygame.display.set_caption('PongVision')
         
 
         self.winner = None
