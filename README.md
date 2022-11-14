@@ -19,8 +19,7 @@ Please make sure you are running python3, and please use requirements.txt to eas
 
 
 ## Motivation
-Physical excercise is absolutely crucial to stay healthy. But sometimes, just excercise alone can get boring.
-We wanted to make a competitve game that allows people to challenge their friends into getting active, healthy, and entertained all at the same time!
+Physical exercise is absolutely crucial to stay healthy. But sometimes, just exercise alone can get boring. We wanted to make a competitive game that allows people to challenge their friends into getting active, healthy, and entertained all at the same time!
 
 
 ## Tech Stack
