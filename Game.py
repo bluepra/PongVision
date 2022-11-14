@@ -3,16 +3,15 @@ import sys
 import os
 from util import *
 from constants import *
-from FaceVideoProcessor import VideoProcessor
-from collections import deque
 from facepong import Pong
 
 states = {'menu': 0, 'pong':1, 'exit': 2, 'game-over': 3}
 
-
 class Game():
     def __init__(self) -> None:
         pygame.init()
+
+        # Start in menu state
         self.state = 0
 
         self.clock = pygame.time.Clock()
@@ -22,16 +21,15 @@ class Game():
         self.game_screen = pygame.display.set_mode((WIDTH, HEIGHT))
         pygame.display.set_caption('PongVision')
         
-
         self.winner = None
 
         # Game music
-        music = pygame.mixer.Sound(background_music)
-        music.set_volume(.1)
-        music.play(-1)
+        pygame.mixer.music.load(background_music)
+        pygame.mixer.music.set_volume(0.5)
 
-        
-
+        self.play_music = True
+        self.toggleMusic()
+    
     def run(self):
         while self.state != states['exit']:
             if self.state == states["menu"]:
@@ -44,12 +42,19 @@ class Game():
             else:
                 self.quit_game()
 
+    def toggleMusic(self):
+        if self.play_music:
+            pygame.mixer.music.play()
+        else:
+            pygame.mixer.music.pause()
+
     def create_menu_buttons(self):
         # play_img = pygame.transform.scale(pygame.image.load('assets/play.png'), (50,50))
-        play_button = Button("(Play)", 460, 170, 175, 60, background_color=BLACK, text_color=GRAY, fontsize=40)
-        exit_button = Button("(Exit )", 460, 250, 150, 60, background_color=BLACK, text_color=GRAY, fontsize=40)
+        play_button = Button("(Play)", 460, 150, 175, 60, background_color=BLACK, text_color=GRAY, fontsize=40)
+        music_button = Button("(Music)", 460, 210, 175, 60, background_color=BLACK, text_color=GRAY, fontsize=40)
+        exit_button = Button("(Exit )", 460, 270, 150, 60, background_color=BLACK, text_color=GRAY, fontsize=40)
 
-        return [play_button, exit_button]
+        return [play_button, music_button, exit_button]
 
     def run_menu(self):
         menu_surface = pygame.Surface((WIDTH, HEIGHT))
@@ -69,12 +74,14 @@ class Game():
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_q:
                         self.state = states["exit"]
-                elif pygame.mouse.get_pressed()[0] == 1:
-                
+                elif pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] == 1:
                     for button in buttons:
                         if button.check_if_clicked(mouse_pos):
                             if button.text == "(Play)":
                                 self.state = states['pong']
+                            elif button.text == "(Music)":
+                                self.play_music = not self.play_music
+                                self.toggleMusic()
                             elif button.text == "(Exit )":
                                 self.state = states['exit']
             
@@ -89,8 +96,7 @@ class Game():
             self.game_screen.fill(BLACK)
             self.game_screen.blit(menu_surface, (0,0))
             pygame.display.update()
-            self.clock.tick(60)
-        
+            self.clock.tick(60)  
    
     def run_pong(self):
         game_surface = pygame.Surface((WIDTH, HEIGHT))
@@ -143,7 +149,6 @@ class Game():
         self.state = states['game-over']
         pong.vp.close()
         
-
     def get_winner_message(self):
         winner_surface = pygame.Surface((800,100))
         winner_surface.fill(BLACK)
