@@ -36,10 +36,10 @@ SAMPLE_WINDOW_SIZE = 4
 VELOCITY_MULT = 1
 
 # Motion sensitivity multiplier
-VERT_MULT = 2
+VERT_MULT = 3
 
 # Win condition
-WIN_CONDITION = 10
+WIN_CONDITION = 3
 
 class Pong():
 
@@ -154,21 +154,21 @@ class Pong():
         # Bottom wall
         if self.ball.rect.y>SCREEN_H - 10:
             self.play_sound(paddle_hit_sound, volume = .25)
-            self.ball.velocity[1] = -self.ball.velocity[1]
+            self.ball.velocity[1] = -abs(self.ball.velocity[1])
         # Top wall
         if self.ball.rect.y<0:
             self.play_sound(paddle_hit_sound, volume = .25)
-            self.ball.velocity[1] = -self.ball.velocity[1]
+            self.ball.velocity[1] = abs(self.ball.velocity[1])
         # Behind paddleA
         if self.paddleA.rect.y < self.ball.rect.x and self.paddleA.rect.y + self.paddleA.height:
             if self.ball.rect.x < self.paddleA.rect.x:
                 self.play_sound(paddle_hit_sound)
-                self.ball.velocity[1] = -self.ball.velocity[1]
+                self.ball.velocity[1] = abs(self.ball.velocity[1])
         # Behind paddleB
         if self.paddleB.rect.y < self.ball.rect.x and self.paddleB.rect.y + self.paddleA.height:
             if self.ball.rect.x > self.paddleB.rect.x:
                 self.play_sound(paddle_hit_sound)
-                self.ball.velocity[1] = -self.ball.velocity[1]
+                self.ball.velocity[1] = -abs(self.ball.velocity[1])
              
 
         #Detect collisions between the ball and the paddles
