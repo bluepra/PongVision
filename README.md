@@ -28,6 +28,10 @@ Physical exercise is absolutely crucial to stay healthy. But sometimes, just exe
 * Mediapipe
 * Pygame
 
+# Gameplay Images
+<img src="https://github.com/bluepra/CheeseHacks_2022/blob/main/images/menu.png" width="350" height="250" />
+<img src="https://github.com/bluepra/CheeseHacks_2022/blob/main/images/gameplay.png" width="350" height="250" />
+
 ## Extra
 * Made by: Prannav Arora, Ryan Almizyed, and Mitchell Brenner! 
 * We made this project as part of the UW Madison CheeseHacks 2022 Hackathon!
