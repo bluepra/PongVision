@@ -10,6 +10,11 @@ Please make sure you are running python3, and please use requirements.txt to eas
 * Open terminal
 * Clone repo: ```git clone https://github.com/bluepra/CheeseHacks_2022.git```
 * Change directory to the repo folder: ```cd CheeseHacks_2022```
+* Create virtual env: ```python3 -m venv venv```
+* Activate environment:
+    * Mac or Linux: ```source ./venv/bin/activate```
+    * Windows: ```.\venv\Scripts\activate```
+* Install dependencies: ```pip install -r requirements.txt```
 * To run the game: ```python3 Game.py```
 
 
