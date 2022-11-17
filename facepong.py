@@ -222,7 +222,6 @@ class Pong():
         self.cooldown_ticks = 500  
         self.cooldown = True
 
-
     def scale_ycoord(self, ycoord: int):
         scaled = (ycoord-MEAS_MIN_Y)*(SCREEN_H / (MEAS_MAX_Y - MEAS_MIN_Y))
         if scaled < 0:
@@ -231,16 +230,3 @@ class Pong():
             return SCREEN_H-self.paddleA.height
         else:
             return scaled
-    
-
-# # Main program
-# def main():
-#     # Initialize game
-#     pong = Pong()
-#     # Kick off main game loop
-#     pong.game_loop()
-#     #Once we have exited the main program loop we can stop the game engine:
-#     pygame.quit()
-
-# if __name__ == "__main__":
-#     main()
