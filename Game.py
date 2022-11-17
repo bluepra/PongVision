@@ -4,6 +4,7 @@ import os
 from util import *
 from constants import *
 from facepong import Pong
+import time
 
 states = {'menu': 0, 'pong':1, 'exit': 2, 'game-over': 3}
 
@@ -106,6 +107,9 @@ class Game():
         pong = Pong(game_surface)
         pong.pause = True
 
+        
+        start_time = time.time()
+        num_iterations_done = 0
         # Keep updating the game while we're not in a win state or exit state
         while self.state == states['pong'] and not (pong.A_won or pong.B_won):
             
@@ -139,7 +143,11 @@ class Game():
             self.game_screen.blit(game_surface, (0,0))
 
             pygame.display.update()
+
+    
+
             self.clock.tick(60)
+            num_iterations_done += 1
         
         if pong.A_won:
             self.winner = 'Left'
@@ -148,6 +156,10 @@ class Game():
         
         self.state = states['game-over']
         pong.vp.close()
+
+        # Calculate how many times we looped in a given second approximately
+        end_time = time.time()
+        print(f'We looped {num_iterations_done} times over {round(end_time-start_time, 2)} seconds')
         
     def get_winner_message(self):
         winner_surface = pygame.Surface((800,100))
