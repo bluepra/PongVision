@@ -38,16 +38,15 @@ VELOCITY_MULT = 1
 # Motion sensitivity multiplier
 VERT_MULT = 3
 
-# Win condition
-WIN_CONDITION = 3
-
 class Pong():
 
-    def __init__(self, surface):
+    def __init__(self, surface, points_to_win = 10):
         # Start video capture
         self.vp = VideoProcessor()
 
         self.clock = pygame.time.Clock()
+
+        self.points_to_win = points_to_win
 
         # Open a new window
         self.size = (SCREEN_W, SCREEN_H)
@@ -104,10 +103,10 @@ class Pong():
     def update_game_state(self):
 
         # Check for a winner
-        if self.scoreA >= WIN_CONDITION:
+        if self.scoreA >= self.points_to_win:
             self.A_won = True
             return
-        elif self.scoreB >= WIN_CONDITION:
+        elif self.scoreB >= self.points_to_win:
             self.B_won = True
             return
 

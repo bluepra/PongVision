@@ -104,10 +104,9 @@ class Game():
         background = pygame.image.load(game_background_img)
         background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
-        pong = Pong(game_surface)
+        pong = Pong(game_surface, points_to_win = 3)
         pong.pause = True
 
-        
         start_time = time.time()
         num_iterations_done = 0
         # Keep updating the game while we're not in a win state or exit state
@@ -143,8 +142,6 @@ class Game():
             self.game_screen.blit(game_surface, (0,0))
 
             pygame.display.update()
-
-    
 
             self.clock.tick(60)
             num_iterations_done += 1
