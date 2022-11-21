@@ -29,6 +29,9 @@ VERT_MULT = 2
 menu_background_img = './assets/menu_background.png'
 game_background_img = './assets/black999-background.png'
 
+# Ball image
+ball_image_path = './assets/soccer-ball.png'
+
 
 title_font_top = './assets/fonts/italics_left_lean.ttf'
 title_font_bottom = './assets/fonts/italics_right_lean.ttf'

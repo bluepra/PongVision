@@ -113,9 +113,8 @@ class Pong():
 
         # Get the player y-coords from the VideoProcessor
         a = self.vp.get_Y_coords(show_video=True)
-        if self.pause: return
-        if a is None:
-            print('A is None')
+        if self.pause: 
+            return
         playerA_y, playerB_y = a
 
         # Smooth coord values
@@ -198,6 +197,7 @@ class Pong():
     def draw_game_surface(self, background):
         # First, clear the screen to black. 
         self.surface.blit(background, (0,0))
+        
         #Draw the net
         # pygame.draw.line(self.surface, WHITE, [349, 0], [349, 500], 5)
         
