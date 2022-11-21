@@ -110,11 +110,11 @@ class Pong():
             self.B_won = True
             return
 
-
         # Get the player y-coords from the VideoProcessor
         a = self.vp.get_Y_coords(show_video=True)
         if self.pause: 
             return
+        
         playerA_y, playerB_y = a
 
         # Smooth coord values
