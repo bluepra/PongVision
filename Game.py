@@ -28,7 +28,7 @@ class Game():
         pygame.mixer.music.load(background_music)
         pygame.mixer.music.set_volume(0.5)
 
-        self.play_music = False
+        self.play_music = True
         self.toggleMusic()
     
     def run(self):
