@@ -5,6 +5,8 @@ We wanted to take the original game of pong and add a physical and active contro
 ## Dependencies
 Please make sure you are running python3, and please use requirements.txt to easily get the python packages we used!
 
+**VERY IMPORATNT:** You need 2 players to play them game. Currently there is no 1 player mode, but that might be a future add-on!
+
 
 ## How to run
 * Open terminal
